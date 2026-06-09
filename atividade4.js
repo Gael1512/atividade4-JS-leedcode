@@ -1,31 +1,29 @@
-/**
- * @param {string} s
- * @return {number}
- */
-var lengthOfLongestSubstring = function(s) {
+function lengthOfLongestSubstring(s) {
 
-    let max = 0;
+    const map = new Map();
 
-    for (let i = 0; i < s.length; i++) {
+    let left = 0;
+    let maxLength = 0;
 
-        let set = new Set();
+    for (let right = 0; right < s.length; right++) {
 
-        for (let j = i; j < s.length; j++) {
+        const current = s[right];
 
-            let char = s[j];
+        if (map.has(current)) {
 
-            if (set.has(char)) {
-                break;
-            }
-
-            set.add(char);
-
-            max = Math.max(max, set.size);
+            left = Math.max(
+                left,
+                map.get(current) + 1
+            );
         }
+
+        map.set(current, right);
+
+        maxLength = Math.max(
+            maxLength,
+            right - left + 1
+        );
     }
 
-    return max;
-    
-};
-
-console.log(lengthOfLongestSubstring("abcabcbb"));
+    return maxLength;
+}
